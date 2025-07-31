@@ -1,4 +1,4 @@
-# Egoodhall Formulae
+# egoodhall/homebrew-formulae
 
 ## How do I install these formulae?
 
@@ -13,6 +13,6 @@ tap "egoodhall/formulae"
 brew "<formula>"
 ```
 
-## Documentation
+## Available Formulae
 
-`brew help`, `man brew` or check [Homebrew's documentation](https://docs.brew.sh).
+- `go-links@0`
