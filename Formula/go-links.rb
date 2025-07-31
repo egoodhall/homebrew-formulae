@@ -1,7 +1,7 @@
 class GoLinks < Formula
   desc "URL aliasing service, with support for template parameters"
   homepage "https://github.com/egoodhall/go-links"
-  url "https://github.com/egoodhall/go-links.git", tag: "v0.1.0"
+  url "https://github.com/egoodhall/go-links.git", tag: "v0.1.1"
   license ""
   head "https://github.com/egoodhall/go-links.git", branch: "main"
 
@@ -22,7 +22,8 @@ class GoLinks < Formula
       config_file.write <<~EOS
         # Go-links configuration
         # Add your URL aliases below
-        address: ":8080"
+        $schema: https://raw.githubusercontent.com/egoodhall/go-links/refs/tags/v0.1.1/schema/go-links.json
+        address: :8080
         targets: []
       EOS
     end
