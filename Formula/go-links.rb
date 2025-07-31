@@ -1,4 +1,4 @@
-class GoLinksAT0 < Formula
+class GoLinks < Formula
   desc "URL aliasing service, with support for template parameters"
   homepage "https://github.com/egoodhall/go-links"
   url "https://github.com/egoodhall/go-links.git", tag: "v0.1.0"
@@ -6,12 +6,6 @@ class GoLinksAT0 < Formula
   head "https://github.com/egoodhall/go-links.git", branch: "main"
 
   depends_on "go" => :build
-
-  # Additional dependency
-  # resource "" do
-  #   url ""
-  #   sha256 ""
-  # end
 
   def install
     system "go", "build", *std_go_args(ldflags: "-s -w", output: bin/"go-links"), "./cmd/go-links"
@@ -34,12 +28,10 @@ class GoLinksAT0 < Formula
     end
   end
 
-  test do
-    system bin/"go-links", "-h"
-  end
-
-  service do
-    run [bin/"go-links", "-c", etc/"go-links/config.yaml"]
+  def post_uninstall
+    # Remove config directory
+    config_dir = etc/"go-links"
+    config_dir.rm_r
   end
 
   def caveats
@@ -50,5 +42,13 @@ class GoLinksAT0 < Formula
       You can edit this file to add your URL aliases.
       The service will automatically use this configuration file.
     EOS
+  end
+
+  test do
+    system bin/"go-links", "-h"
+  end
+
+  service do
+    run [opt_bin/"go-links", "-c", etc/"go-links/config.yaml"]
   end
 end
