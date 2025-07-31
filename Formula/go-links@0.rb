@@ -17,7 +17,38 @@ class GoLinksAT0 < Formula
     system "go", "build", *std_go_args(ldflags: "-s -w", output: bin/"go-links"), "./cmd/go-links"
   end
 
+  def post_install
+    # Create config directory
+    config_dir = etc/"go-links"
+    config_dir.mkpath
+
+    # Create default config file if it doesn't exist
+    config_file = config_dir/"config.yaml"
+    unless config_file.exist?
+      config_file.write <<~EOS
+        # Go-links configuration
+        # Add your URL aliases below
+        address: ":8080"
+        targets: []
+      EOS
+    end
+  end
+
   test do
     system bin/"go-links", "-h"
+  end
+
+  service do
+    run [bin/"go-links", "-c", etc/"go-links/config.yaml"]
+  end
+
+  def caveats
+    <<~EOS
+      A default configuration file has been created at:
+        #{etc}/go-links/config.yaml
+
+      You can edit this file to add your URL aliases.
+      The service will automatically use this configuration file.
+    EOS
   end
 end
